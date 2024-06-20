@@ -37,15 +37,21 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function calculate() {
     for (let i = 0; i < 8; i++) {
-        const input = document.getElementById(`input${i}`).value;
+        const input = document.getElementById(`input${i}`).value.trim(); // Trim to remove leading/trailing spaces
         const resultSpan = document.getElementById(`result${i}`);
 
         if (input) {
+            console.log(`Input for row ${i}:`, input);
+            
             const parsed = input.match(/(-?\d+)\s*([-+])\s*(-?\d+)/);
+            console.log(`Parsed values for row ${i}:`, parsed);
+            
             if (parsed) {
                 const num1 = parseInt(parsed[1]);
                 const operator = parsed[2];
                 const num2 = parseInt(parsed[3]);
+
+                console.log(`Parsed numbers for row ${i}:`, num1, operator, num2);
 
                 let result;
                 if (operator === '+') {
@@ -54,10 +60,11 @@ function calculate() {
                     result = num1 - num2;
                 }
 
-                // Ensuring the result is within the range of 0-9
-                result = ((result % 10) + 10) % 10;
+                // Get last digit of result
+                const lastDigit = Math.abs(result) % 10;
 
-                resultSpan.textContent = `Result: ${result}`;
+                console.log(`Result for row ${i}:`, lastDigit);
+                resultSpan.textContent = `Result: ${lastDigit}`;
             } else {
                 resultSpan.textContent = 'Invalid input';
             }
